@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <sdf version="1.6">
   <world name="default">
 
@@ -8,7 +9,7 @@
 -->
 
 
-<model name="ground">
+    <model name="ground">
       <pose>75 -41.8 0 0 0 1.57</pose>
       <static>1</static>
       <link name="ground">
@@ -43,9 +44,255 @@
     <include>
       <uri>model://sun</uri>
     </include>
+    
+    <model name='cube'>
+		<pose>35 -64 1 0 1.5 0</pose>
+		<link name='link'>
+		  <inertial>
+		    <mass>1</mass>
+		    <inertia>
+		      <ixx>0.166667</ixx>
+		      <ixy>0</ixy>
+		      <ixz>0</ixz>
+		      <iyy>0.166667</iyy>
+		      <iyz>0</iyz>
+		      <izz>0.166667</izz>
+		    </inertia>
+		    <pose>0 0 0 0 -0 0</pose>
+		  </inertial>
+		  <self_collide>0</self_collide>
+		  <enable_wind>0</enable_wind>
+		  <kinematic>0</kinematic>
+		  <pose>0 -0 1 0 -0 0</pose>
+		  <gravity>1</gravity>
+		  <visual name='visual'>
+		    <geometry>
+		      <box>
+		        <size>2 2 2</size>
+		      </box>
+		    </geometry>
+		    <material>
+		      <script>
+		        <name>Gazebo/Grey</name>
+		        <uri>file://media/materials/scripts/gazebo.material</uri>
+		      </script>
+		      <shader type='pixel'>
+		        <normal_map>__default__</normal_map>
+		      </shader>
+		      <ambient>0.3 0.3 0.3 1</ambient>
+		      <diffuse>0.7 0.7 0.7 1</diffuse>
+		      <specular>0.01 0.01 0.01 1</specular>
+		      <emissive>0 0 0 1</emissive>
+		    </material>
+		    <pose>0 0 0 0 -0 0</pose>
+		    <transparency>0</transparency>
+		    <cast_shadows>1</cast_shadows>
+		  </visual>
+		  <collision name='collision'>
+		    <laser_retro>0</laser_retro>
+		    <max_contacts>10</max_contacts>
+		    <pose>0 0 0 0 -0 0</pose>
+		    <geometry>
+		      <box>
+		        <size>2 2 2</size>
+		      </box>
+		    </geometry>
+		    <surface>
+		      <friction>
+		        <ode>
+		          <mu>0</mu>
+		          <mu2>0</mu2>
+		          <fdir1>0 0 0</fdir1>
+		          <slip1>0</slip1>
+		          <slip2>0</slip2>
+		        </ode>
+		        <torsional>
+		          <coefficient>1</coefficient>
+		          <patch_radius>0</patch_radius>
+		          <surface_radius>0</surface_radius>
+		          <use_patch_radius>1</use_patch_radius>
+		          <ode>
+		            <slip>0</slip>
+		          </ode>
+		        </torsional>
+		      </friction>
+		      <bounce>
+		        <restitution_coefficient>0</restitution_coefficient>
+		        <threshold>1e+06</threshold>
+		      </bounce>
+		      <contact>
+		        <collide_without_contact>0</collide_without_contact>
+		        <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+		        <collide_bitmask>1</collide_bitmask>
+		        <ode>
+		          <soft_cfm>0</soft_cfm>
+		          <soft_erp>0.2</soft_erp>
+		          <kp>1e+13</kp>
+		          <kd>1</kd>
+		          <max_vel>0.01</max_vel>
+		          <min_depth>0</min_depth>
+		        </ode>
+		        <bullet>
+		          <split_impulse>1</split_impulse>
+		          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+		          <soft_cfm>0</soft_cfm>
+		          <soft_erp>0.2</soft_erp>
+		          <kp>1e+13</kp>
+		          <kd>1</kd>
+		        </bullet>
+		      </contact>
+		    </surface>
+		  </collision>
+		</link>
+		<static>0</static>
+		<allow_auto_disable>1</allow_auto_disable>
+		
+		<plugin name="cube" filename="libgazebo_ros_planar_move.so">
+		<ros>
+		  <namespace>CUBE</namespace>
+		  <remapping>cmd_vel:=cmd_demo</remapping>
+	      <odometryTopic>odom</odometryTopic>
+	      <odometryFrame>odom</odometryFrame>
+	      <odometryRate>20.0</odometryRate>
+	      <robotBaseFrame>base_footprint</robotBaseFrame>
+		</ros>
+	    </plugin>
+	  </model>
+	  
+	  
+	  <actor name="actor">
+		  <skin>
+			<filename>file://media/models/walk.dae</filename>
+			<scale>1.0</scale>
+		  </skin>
+		  <pose>112 -44 0.5 0 0 0</pose>
+		  <animation name="walking">
+			<filename>file://media/models/walk.dae</filename>
+			<scale>1.05000</scale>
+			<interpolate_x>true</interpolate_x>
+		  </animation>
+	<script>
+         <loop>true</loop>
+         <delay_start>0.000000</delay_start>
+         <auto_start>true</auto_start>
+         
+         <trajectory id="0" type="walking">
+             <waypoint>
+               <time>0.000000</time>
+               <pose>127 -44 0 0 0 0</pose> <!-- 처음 위치 -->
+             </waypoint>
+             <waypoint>
+               <time>5.000000</time>
+               <pose>132.5 -44 0 0 0 0</pose> <!-- 중간지점으로 이동 -->
+             </waypoint>
+             <waypoint>
+               <time>10.000000</time>
+               <pose>138 -44 0 0 0 0</pose> <!-- 도착지점으로 이동 -->
+             </waypoint>
+             <waypoint>
+               <time>11.000000</time>
+               <pose>138 -44 0 0 0 3.14</pose> <!-- 도착지점에서 회전 -->
+             </waypoint>
+             <waypoint>
+               <time>16.000000</time>
+               <pose>132.5 -44 0 0 0 3.14</pose> <!-- 중간지점으로 이동 -->
+             </waypoint>
+             <waypoint>
+               <time>21.000000</time>
+               <pose>127 -44 0 0 0 3.14</pose> <!-- 처음 위치로 돌아가도록 -->
+             </waypoint>
+         </trajectory>
+        </script>
+		</actor>
+   
+  <!-- 오르막길 -->
+    <model name="uphill">
+      <pose>89.1 -70 -4.52 0 -0.1 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>10 10 10</size> <!-- 오르막길의 크기 -->
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>10 10 10</size> <!-- 오르막길의 크기 -->
+            </box>
+          </geometry>
+          <material>
+        <script>
+              <uri> ./hill2.material </uri>  <!-- file://course.material -->
+              <name>hill2</name>
+            </script>
 
+      </material>
+      
+        </visual>
+      </link>
+    </model>
+	  
+	  <!-- 평평한 길 -->
+    <model name="flat">
+      <pose>96 -70 -4.05 0 0 0</pose> <!-- 오르막길 뒤에 평평한 길 배치 -->
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>5 10 10</size> <!-- 평평한 길의 크기 -->
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>5 10 10</size> <!-- 평평한 길의 크기 -->
+            </box>
+          </geometry>
+          <material>
+        <script>
+              <uri> ./hill.material </uri>  <!-- file://course.material -->
+              <name>hill</name>
+            </script>
 
-  </world>
+      </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 내리막길 -->
+    <model name="downhill">
+      <pose>103 -70 -4.54 0 0.1 0</pose> <!-- 평평한 길 뒤에 내리막길 배치 -->
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>10 10 10</size> <!-- 내리막길의 크기 -->
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>10 10 10</size> <!-- 내리막길의 크기 -->
+            </box>
+          </geometry>
+          <material>
+        <script>
+              <uri> ./hill.material </uri>  <!-- file://course.material -->
+              <name>hill</name>
+            </script>
+
+      </material>
+        </visual>
+      </link>
+    </model>
+    </world>
 </sdf>
 
 
