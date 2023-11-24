@@ -64,9 +64,10 @@ class LineFollower(Node):
             self._time_publisher = self.create_publisher(String, 'driving_time', 10)
             self.t1 = self.get_clock().now()
 
+
     def image_callback(self, msg: Image):
         # 장애물 발견시 이미지 처리 중지
-        if self.obstacle_found: retuSrn
+        if self.obstacle_found: return
         img = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
 
         self.line_tracker.process(img)

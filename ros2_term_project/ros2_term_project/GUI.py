@@ -1,6 +1,7 @@
 import os
 import sys
 import threading
+import time
 
 import rclpy
 from rclpy.node import Node
@@ -106,7 +107,11 @@ class StartCarPub(Node):
         self.publisher = self.create_publisher(StartCar, '/start_car', 10)
         self.msg = StartCar()
         self.msg.car = car
-        self.publisher.publish(self.msg)
+        # 컴퓨터 사양에 따라서 토픽을 제대로 전달 받지 못하는 경우가 생기기 때문에 여러번 발행
+        for _ in range(5):
+            self.publisher.publish(self.msg)
+            time.sleep(0.1)
+        # self.publisher.publish(self.msg)
         self.destroy_node()
 
 
