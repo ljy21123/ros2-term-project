@@ -24,6 +24,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'follower = ros2_term_project.line_follower:main',
+            'cube = ros2_term_project.cube_publisher:main',
+            'gui = ros2_term_project.GUI:run',
+            'sub = ros2_term_project.time_sub:time_sub_run',
         ],
     },
 )

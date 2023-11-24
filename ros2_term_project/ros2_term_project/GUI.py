@@ -135,3 +135,7 @@ class GuiRun:
             if self.ex:
                 self.ex.set_result_label2(new_text)
 
+def main():
+    app = QApplication(sys.argv)
+    gui = Gui()
+    sys.exit(app.exec_())

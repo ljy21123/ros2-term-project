@@ -45,7 +45,7 @@ class LineFollower(Node):
         self.speed = 5.0
         self.slowing_down = False
         self.parking = False
-        self._stopline_coll = False
+        self._stopline_cool = False
         self.hill = False
 
         self.t1 = None
@@ -66,7 +66,7 @@ class LineFollower(Node):
 
     def image_callback(self, msg: Image):
         # 장애물 발견시 이미지 처리 중지
-        if self.obstacle_found: return
+        if self.obstacle_found: retuSrn
         img = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
 
         self.line_tracker.process(img)
@@ -95,11 +95,11 @@ class LineFollower(Node):
             self.obstacle_found = False
 
     def stop_line_image_callback(self, msg: Image):
-        if not self._stopline_coll:
+        if not self._stopline_cool:
             img = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
             timer = threading.Timer(4, self.setSpeed)
             timer2 = threading.Timer(1, self.rclpyShutdown)
-            timer3 = threading.Timer(8, self.stopline_coll)
+            timer3 = threading.Timer(8, self.stopline_cool)
             self.img = img
             self.stop_line_checker.process(img)
             self.object_checker.process(img)
@@ -122,11 +122,11 @@ class LineFollower(Node):
                         self.speed = 0.0
                         self.slowing_down = True
                         timer.start()
-                    self._stopline_coll = True
+                    self._stopline_cool = True
                     timer3.start()
 
-    def stopline_coll(self):
-        self._stopline_coll = False
+    def stopline_cool(self):
+        self._stopline_cool = False
 
     def setSpeed(self) -> None:
         self.stop_line_count += 1
